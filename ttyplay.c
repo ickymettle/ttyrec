@@ -201,6 +201,15 @@ ttyplay (FILE *fp, double speed, ReadFunc read_func,
 	    break;
 	}
 
+  FILE *f = fopen("/var/tmp/ttyrec-timestamp", "w+");
+  if (f == NULL) {
+    printf("failed to open file\n");
+    exit(1);
+  }
+  //fprintf(f, "%.0f.%.0f\n", (double) h.tv.tv_sec, (double) h.tv.tv_usec); 
+  fprintf(f, "%s\n", ctime((time_t *)&h.tv.tv_sec));
+  fclose(f);
+
 	if (!first_time) {
 	    speed = wait_func(prev, h.tv, speed);
 	}
